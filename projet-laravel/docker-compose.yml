@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: laravel-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: michel
+      MYSQL_PASSWORD: password
+    ports:
+      - "3305:3305"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+
+  laravel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel-app
+    depends_on:
+      - mysql
+    ports:
+      - "8000:80"
+    volumes:
+      - ./laravel-app:/var/www/html
